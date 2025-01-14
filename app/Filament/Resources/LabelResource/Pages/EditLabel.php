@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\CategoryResource\Pages;
+namespace App\Filament\Resources\LabelResource\Pages;
 
-use App\Filament\Resources\CategoryResource;
+use App\Filament\Resources\LabelResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditCategory extends EditRecord
+class EditLabel extends EditRecord
 {
-    protected static string $resource = CategoryResource::class;
+    protected static string $resource = LabelResource::class;
 
     protected function getRedirectUrl(): string
     {
