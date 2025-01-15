@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Label;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,5 +46,10 @@ class Ticket extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function labels()
+    {
+        return $this->belongsToMany(Label::class);
     }
 }

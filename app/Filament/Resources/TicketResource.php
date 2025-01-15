@@ -2,17 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
-use App\Models\Ticket;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource\RelationManagers\CategoriesRelationManager;
+use App\Filament\Resources\TicketResource\RelationManagers\LabelsRelationManager;
+use App\Models\Ticket;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
 
 class TicketResource extends Resource
 {
@@ -30,17 +31,20 @@ class TicketResource extends Resource
 
                 Select::make('priority')
                     // $model ni dari atas sebab dah declare
-                    ->options(self::$model::PRIORITY),
+                    ->options(self::$model::PRIORITY)
+                    ->in(self::$model::PRIORITY)
+                    ->required(),
 
                 Select::make('assigned_to')
-                    ->relationship('assignedTo', 'name'),
+                    ->relationship('assignedTo', 'name')
+                    ->required(),
 
                 // Checkbox::make('is_resolved'),
 
+                Textarea::make('description'),
+
                 Textarea::make('comment'),
 
-                Textarea::make('description')
-                    ->required(),
             ]);
     }
 
@@ -49,14 +53,14 @@ class TicketResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->description(fn (Ticket $record): string => $record->description),
+                    ->description(fn (Ticket $record): string => $record?->description ?? ''),
                 Tables\Columns\TextColumn::make('status')
                     ->badge(),
-                    // ->enum(self::$model::STATUS),
+                // ->enum(self::$model::STATUS),
                 Tables\Columns\TextColumn::make('priority')
                     ->badge(),
-                    // ->enum(self::$model::PRIORITY),
-                    //ini dari model relation function
+                // ->enum(self::$model::PRIORITY),
+                // ini dari model relation function
                 Tables\Columns\TextColumn::make('assignedTo.name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('assignedBy.name')
@@ -81,6 +85,7 @@ class TicketResource extends Resource
     {
         return [
             CategoriesRelationManager::class,
+            LabelsRelationManager::class,
         ];
     }
 
