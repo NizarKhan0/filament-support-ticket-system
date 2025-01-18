@@ -15,79 +15,79 @@ class PermissionsTableSeeder extends Seeder
     {
         $permissions = [
             [
-                'name' => 'permission_create',
+                'title' => 'permission_create',
             ],
             [
-                'name' => 'permission_edit',
+                'title' => 'permission_edit',
             ],
             [
-                'name' => 'permission_delete',
+                'title' => 'permission_delete',
             ],
             [
-                'name' => 'permission_show',
+                'title' => 'permission_show',
             ],
             [
-                'name' => 'permission_access',
+                'title' => 'permission_access',
             ],
             [
-                'name' => 'role_create',
+                'title' => 'role_create',
             ],
             [
-                'name' => 'role_edit',
+                'title' => 'role_edit',
             ],
             [
-                'name' => 'role_show',
+                'title' => 'role_show',
             ],
             [
-                'name' => 'role_delete',
+                'title' => 'role_delete',
             ],
             [
-                'name' => 'role_access',
+                'title' => 'role_access',
             ],
             [
-                'name' => 'category_create',
+                'title' => 'category_create',
             ],
             [
-                'name' => 'category_edit',
+                'title' => 'category_edit',
             ],
             [
-                'name' => 'category_show',
+                'title' => 'category_show',
             ],
             [
-                'name' => 'category_delete',
+                'title' => 'category_delete',
             ],
             [
-                'name' => 'category_access',
+                'title' => 'category_access',
             ],
             [
-                'name' => 'ticket_create',
+                'title' => 'ticket_create',
             ],
             [
-                'name' => 'ticket_edit',
+                'title' => 'ticket_edit',
             ],
             [
-                'name' => 'ticket_show',
+                'title' => 'ticket_show',
             ],
             [
-                'name' => 'ticket_delete',
+                'title' => 'ticket_delete',
             ],
             [
-                'name' => 'ticket_access',
+                'title' => 'ticket_access',
             ],
             [
-                'name' => 'user_create',
+                'title' => 'user_create',
             ],
             [
-                'name' => 'user_edit',
+                'title' => 'user_edit',
             ],
             [
-                'name' => 'user_show',
+                'title' => 'user_show',
             ],
             [
-                'name' => 'user_delete',
+                'title' => 'user_delete',
             ],
             [
-                'name' => 'user_access',
+                'title' => 'user_access',
             ],
         ];
 
