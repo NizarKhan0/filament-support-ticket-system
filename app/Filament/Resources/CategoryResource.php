@@ -44,6 +44,8 @@ class CategoryResource extends Resource
 
     public static function table(Table $table): Table
     {
+
+        // dd(auth()->user()->hasPermission('category_show'));
         return $table
             ->columns([
                 TextColumn::make('name'),
