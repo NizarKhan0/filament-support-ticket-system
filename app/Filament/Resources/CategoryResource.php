@@ -32,7 +32,7 @@ class CategoryResource extends Resource
             ->schema([
                 TextInput::make('name')
                     ->required()
-                    ->reactive()
+                    ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
                 TextInput::make('slug')

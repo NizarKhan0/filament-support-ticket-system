@@ -24,6 +24,7 @@ class TicketResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            //utk setup column( macam grid/flexbox)
             ->columns(1)
             ->schema([
                 TextInput::make('title')
@@ -54,12 +55,21 @@ class TicketResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->description(fn (Ticket $record): string => $record?->description ?? ''),
-                Tables\Columns\TextColumn::make('status')
-                    ->badge(),
-                // ->enum(self::$model::STATUS),
+
+                Tables\Columns\SelectColumn::make('status')
+                    ->disabled(!auth()->user()->hasPermission('ticket_edit'))
+                    ->selectablePlaceholder(false)
+                    ->options(self::$model::STATUS)
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('priority')
-                    ->badge(),
-                // ->enum(self::$model::PRIORITY),
+                    ->badge()
+                    ->sortable()
+                    ->colors([
+                        'success' => self::$model::PRIORITY['Low'],
+                        'warning' => self::$model::PRIORITY['Medium'],
+                        'danger' => self::$model::PRIORITY['High'],
+                    ]),
                 // ini dari model relation function
                 Tables\Columns\TextColumn::make('assignedTo.name')
                     ->searchable(),
