@@ -2,26 +2,25 @@
 
 namespace App\Policies;
 
-use App\Models\Permission;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
-class PermissionPolicy
+class UserPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        // return true;
-        return $user->hasPermission('permission_access');
+        return $user->hasPermission('user_access');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Permission $permission): bool
+    public function view(User $user, User $model): bool
     {
-        return false;
+        return $user->hasPermission('user_show');
     }
 
     /**
@@ -29,34 +28,34 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermission('permission_create');
+        return $user->hasPermission('user_create');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Permission $permission): bool
+    public function update(User $user, User $model): bool
     {
-        return $user->hasPermission('permission_edit');
+        return $user->hasPermission('user_edit');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Permission $permission): bool
+    public function delete(User $user, User $model): bool
     {
-        return $user->hasPermission('permission_delete');
+        return $user->hasPermission('user_delete');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermission('permission_delete');
+        return $user->hasPermission('user_delete');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Permission $permission): bool
+    public function restore(User $user, User $model): bool
     {
         return false;
     }
@@ -64,7 +63,7 @@ class PermissionPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Permission $permission): bool
+    public function forceDelete(User $user, User $model): bool
     {
         return false;
     }

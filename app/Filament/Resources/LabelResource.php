@@ -35,7 +35,8 @@ class LabelResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
-                CheckboxColumn::make('is_active'),
+                CheckboxColumn::make('is_active')
+                ->disabled(!auth()->user()->hasPermission('label_edit')),
             ])
             ->filters([
                 //

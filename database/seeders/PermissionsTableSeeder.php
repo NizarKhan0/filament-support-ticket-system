@@ -60,6 +60,21 @@ class PermissionsTableSeeder extends Seeder
                 'title' => 'category_access',
             ],
             [
+                'title' => 'label_create',
+            ],
+            [
+                'title' => 'label_edit',
+            ],
+            [
+                'title' => 'label_show',
+            ],
+            [
+                'title' => 'label_delete',
+            ],
+            [
+                'title' => 'label_access'
+            ],
+            [
                 'title' => 'ticket_create',
             ],
             [
