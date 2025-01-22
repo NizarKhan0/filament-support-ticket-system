@@ -31,8 +31,15 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->maxContentWidth('full')
             ->colors([
-                'primary' => Color::Amber,
+                'danger' => Color::Rose,
+                'gray' => Color::Gray,
+                'info' => Color::Blue,
+                //primary yg penting untuk uabh semua
+                'primary' => Color::Indigo,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
             ])
+            ->font('poppins')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

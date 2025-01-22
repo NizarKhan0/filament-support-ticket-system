@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
+
 class TextMessage extends Model
 {
     protected $fillable = [
@@ -24,11 +25,11 @@ class TextMessage extends Model
 
     public function sentBy()
     {
-        return $this->belongsTo(User::class, 'send_by');
+        return $this->belongsTo(User::class, 'sent_by');
     }
-
     public function sentTo()
     {
-        return $this->belongsTo(User::class, 'send_to');
+        return $this->belongsTo(User::class, 'sent_to');
     }
+
 }
