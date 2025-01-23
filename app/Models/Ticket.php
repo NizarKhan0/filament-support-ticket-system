@@ -6,9 +6,11 @@ use App\Models\User;
 use App\Models\Label;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Ticket extends Model
 {
+    use Notifiable;
 
     const PRIORITY = [
         'Low' => 'Low',
