@@ -2,18 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TicketResource\Pages;
-use App\Filament\Resources\TicketResource\RelationManagers\CategoriesRelationManager;
-use App\Filament\Resources\TicketResource\RelationManagers\LabelsRelationManager;
+use Filament\Tables;
 use App\Models\Ticket;
-use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
+use Filament\Forms\Components\FileUpload;
+use App\Filament\Resources\TicketResource\Pages;
+use App\Filament\Resources\TicketResource\RelationManagers\LabelsRelationManager;
+use App\Filament\Resources\TicketResource\RelationManagers\CategoriesRelationManager;
 
 class TicketResource extends Resource
 {
@@ -46,6 +47,7 @@ class TicketResource extends Resource
 
                 Textarea::make('comment'),
 
+                FileUpload::make('attachment'),
             ]);
     }
 
@@ -76,6 +78,8 @@ class TicketResource extends Resource
                 Tables\Columns\TextColumn::make('assignedBy.name')
                     ->searchable(),
                 Tables\Columns\TextInputColumn::make('comment'),
+                Tables\Columns\ImageColumn::make('attachment')
+                ->square(),
             ])
             ->filters([
                 //

@@ -69,4 +69,10 @@ class User extends Authenticatable
 
         return collect($permissionArray)->unique()->contains($permission);
     }
+
+    //check if user has role
+    public function hasRole(string $role): bool
+    {
+        return $this->roles()->where('title', $role)->exists();
+    }
 }

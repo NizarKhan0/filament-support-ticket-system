@@ -12,6 +12,8 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
 class StatsOverview extends BaseWidget
 {
+    //function ini dari vendor filament widget, chstom (override)
+    protected static ?int $sort = 1;
     protected function getStats(): array
     {
         return [

@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\LatestTickets;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -51,6 +52,7 @@ class AdminPanelProvider extends PanelProvider
                 // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
                 TicketsOverviewChart::class,
+                LatestTickets::class,
             ])
             ->middleware([
                 EncryptCookies::class,
