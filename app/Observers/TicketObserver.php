@@ -24,8 +24,8 @@ class TicketObserver
             // Send a notification to the database for the assigned user
             Notification::make()
             ->title('A new ticket has been created and assigned to you.')
-            ->sendToDatabase($assignedTo);
-
+            // ->sendToDatabase($assignedTo);
+            ->sendToDatabase($assignedTo, isEventDispatched: true);
     }
 
     //ini cara kedua yg work dia guna alternatif notification dari laravel
