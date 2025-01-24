@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Models\Role;
 use Filament\Tables;
 use App\Models\Ticket;
 use Filament\Forms\Form;
@@ -15,6 +16,7 @@ use Filament\Forms\Components\FileUpload;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\TicketResource\RelationManagers\CategoriesRelationManager;
+use App\Models\User;
 
 class TicketResource extends Resource
 {
@@ -38,7 +40,12 @@ class TicketResource extends Resource
                     ->required(),
 
                 Select::make('assigned_to')
-                    ->relationship('assignedTo', 'name')
+                    // ->relationship('assignedTo', 'name')
+                    ->options(
+                        User::whereHas('roles', function ($query) {
+                            $query->where('name', Role::ROLES['Agent']);
+                        })->get()->pluck('name', 'id')->toArray()
+                    )
                     ->required(),
 
                 // Checkbox::make('is_resolved'),
