@@ -37,7 +37,12 @@ class CategoriesRelationManager extends RelationManager
             ])
             ->headerActions([
                 //add attaching action
-                Tables\Actions\AttachAction::make(),
+                Tables\Actions\AttachAction::make()
+                //ini define scopeActive dari model untuk letak condition
+                ->recordSelectOptionsQuery(fn (Builder $query) => $query->active())
+
+                //ini cara terus define filter kat sini
+                // ->recordSelectOptionsQuery(fn (Builder $query) => $query->where('is_active', true)),
             ])
             ->actions([
                 //add detaching action
