@@ -24,7 +24,7 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-adjustments-horizontal';
 
     public static function form(Form $form): Form
     {
@@ -76,9 +76,11 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ManageCategories::route('/'),
+
+            // 'index' => Pages\ListCategories::route('/'),
+            // 'create' => Pages\CreateCategory::route('/create'),
+            // 'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }

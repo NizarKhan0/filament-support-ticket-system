@@ -7,6 +7,12 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateTicket extends CreateRecord
 {
+    //utk override notification
+    protected function getCreatedNotificationTitle(): ?string
+    {
+        return "Ticket Created";
+        // return $this->getCreatedNotificationMessage() ?? __('filament-panels::resources/pages/create-record.notifications.created.title');
+    }
     protected static string $resource = TicketResource::class;
 
     protected function getRedirectUrl(): string

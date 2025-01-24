@@ -2,23 +2,19 @@
 
 namespace App\Filament\Resources\LabelResource\Pages;
 
-use App\Filament\Resources\LabelResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\LabelResource;
+use Filament\Resources\Pages\ManageRecords;
 
-class EditLabel extends EditRecord
+
+class ManageLabels extends ManageRecords
 {
     protected static string $resource = LabelResource::class;
-
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
 
     protected function getHeaderActions(): array
     {
         return [
-
+            Actions\CreateAction::make(),
         ];
     }
 }
