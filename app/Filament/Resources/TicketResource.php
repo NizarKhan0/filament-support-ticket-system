@@ -100,11 +100,21 @@ class TicketResource extends Resource
                 Tables\Columns\TextColumn::make('priority')
                     ->badge()
                     ->sortable()
+
+                    //bole guna cara ni kalau dah declare dari model
                     ->colors([
                         'success' => self::$model::PRIORITY['Low'],
                         'warning' => self::$model::PRIORITY['Medium'],
                         'danger' => self::$model::PRIORITY['High'],
                     ]),
+
+                    //ini cara terus define mcm dalam filament v3
+                    // ->color(fn (string $state): string => match ($state) {
+                    //     'Low' => 'success',
+                    //     'Medium' => 'warning',
+                    //     'High' => 'danger',
+                    // }),
+
                 // ini dari model relation function
                 Tables\Columns\TextColumn::make('assignedTo.name')
                     ->searchable(),
