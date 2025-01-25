@@ -42,20 +42,32 @@ class TicketResource extends Resource
                     ->required(),
 
                 Select::make('assigned_to')
-                    //1
-                    // ->relationship('assignedTo', 'name')
+
+                    ->relationship('assignedTo', 'name')
+                       //1
                     // ->options(
                     //     User::whereHas('roles', function ($query) {
                     //         $query->where('name', Role::ROLES['Agent']);
                     //     })->get()->pluck('name', 'id')->toArray()
                     // )
 
-                    //2
+                    //2 display user yg login sekarang kecuali admin
                     ->options(
                         User::whereHas('roles', function ($query) {
                             $query->where('name', '!=', Role::ROLES['Admin']);
-                        })->get()->pluck('name', 'id')->toArray()
+                        })
+                        ->where('id', auth()->user()->id) // Menapis hanya untuk pengguna yang sedang log masuk
+                        ->get()
+                        ->pluck('name', 'id')
+                        ->toArray()
                     )
+
+                    //3 display semua user kecuali admin
+                    // ->options(
+                    //     User::whereHas('roles', function ($query) {
+                    //         $query->where('name', '!=', Role::ROLES['Admin']);
+                    //     })->get()->pluck('name', 'id')->toArray()
+                    // )
                     ->required(),
 
                 // Checkbox::make('is_resolved'),
@@ -72,19 +84,19 @@ class TicketResource extends Resource
     {
         return $table
 
-        //utk buat filter apa yg kita nak
-        ->modifyQueryUsing(function (Builder $query) {
-            if (auth()->check() && auth()->user()->hasRole(Role::ROLES['Admin'])) {
-                // Admin can see all tickets
-                return Ticket::query();
-            } else {
-                // Non-admins can only see tickets assigned to them
-                return $query->where('assigned_to', auth()->id());
-            }
-        })
+            //utk buat filter apa yg kita nak
+            ->modifyQueryUsing(function (Builder $query) {
+                if (auth()->check() && auth()->user()->hasRole(Role::ROLES['Admin'])) {
+                    // Admin can see all tickets
+                    return Ticket::query();
+                } else {
+                    // Non-admins can only see tickets assigned to them
+                    return $query->where('assigned_to', auth()->id());
+                }
+            })
 
-        //utk setup by default sort nak letak apa
-        ->defaultSort('created_at', 'desc')
+            //utk setup by default sort nak letak apa
+            ->defaultSort('created_at', 'desc')
 
             ->columns([
                 Tables\Columns\TextColumn::make('title')
@@ -108,19 +120,20 @@ class TicketResource extends Resource
                         'danger' => self::$model::PRIORITY['High'],
                     ]),
 
-                    //ini cara terus define mcm dalam filament v3
-                    // ->color(fn (string $state): string => match ($state) {
-                    //     'Low' => 'success',
-                    //     'Medium' => 'warning',
-                    //     'High' => 'danger',
-                    // }),
+                //ini cara terus define mcm dalam filament v3
+                // ->color(fn (string $state): string => match ($state) {
+                //     'Low' => 'success',
+                //     'Medium' => 'warning',
+                //     'High' => 'danger',
+                // }),
 
                 // ini dari model relation function
                 Tables\Columns\TextColumn::make('assignedTo.name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('assignedBy.name')
                     ->searchable(),
-                Tables\Columns\TextInputColumn::make('comment'),
+                Tables\Columns\TextInputColumn::make('comment')
+                    ->disabled(!auth()->user()->hasPermission('ticket_edit')),
                 Tables\Columns\ImageColumn::make('attachment')
                     ->square(),
                 Tables\Columns\TextColumn::make('created_at')
