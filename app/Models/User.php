@@ -25,7 +25,7 @@ class User extends Authenticatable
     ];
 
     //eager loading for fix N+1 problem
-    protected $with = ['roles.permissions'];
+    // protected $with = ['roles.permissions'];
 
     /**
      * The attributes that should be hidden for serialization.

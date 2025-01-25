@@ -2,8 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\Ticket;
+use App\Models\Role;
 use App\Models\User;
+use App\Models\Ticket;
 use Illuminate\Auth\Access\Response;
 
 class TicketPolicy
@@ -37,6 +38,16 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket): bool
     {
+        //kalau nak guna authorize dgn gate , tapi kat sini dah define kt view tu hanya user yg dh asssign dgn ticket dia sendiri akan di display
+        // return $user->hasPermission('ticket_edit')&& $user->id === $ticket->assigned_to;
+
+        //boleh guna mcm ni klau nak bagi full access kat admin
+        // if($user->hasRole(Role::ROLES['Admin'])){
+        //     return true;
+        // }else{
+        //     return $user->hasPermission('ticket_edit')&& $user->id === $ticket->assigned_to;
+        // }
+
         return $user->hasPermission('ticket_edit');
     }
 

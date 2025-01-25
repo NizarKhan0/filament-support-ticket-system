@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\AdminLogin;
 use App\Filament\Widgets\LatestTickets;
 use Filament\Pages;
 use Filament\Panel;
@@ -29,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(AdminLogin::class)
             ->maxContentWidth('full')
             ->sidebarCollapsibleOnDesktop()
             ->colors([

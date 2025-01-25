@@ -47,25 +47,35 @@ class TicketResource extends Resource
                        //1
                     // ->options(
                     //     User::whereHas('roles', function ($query) {
-                    //         $query->where('name', Role::ROLES['Agent']);
+                    //         $query->where('title', Role::ROLES['Agent']);
                     //     })->get()->pluck('name', 'id')->toArray()
                     // )
 
                     //2 display user yg login sekarang kecuali admin
                     ->options(
-                        User::whereHas('roles', function ($query) {
-                            $query->where('name', '!=', Role::ROLES['Admin']);
-                        })
-                        ->where('id', auth()->user()->id) // Menapis hanya untuk pengguna yang sedang log masuk
-                        ->get()
-                        ->pluck('name', 'id')
-                        ->toArray()
+                        function () {
+                            // Check if the user has the 'Admin' role
+                            if (auth()->user()->hasRole(Role::ROLES['Admin'])) {
+                                return User::whereHas('roles', function ($query) {
+                                    $query->where('title', Role::ROLES['Agent']);
+                                })
+                                ->get()
+                                ->pluck('name', 'id')
+                                ->toArray();
+                            }
+
+                            // For non-admin users, limit to their own data
+                            return User::where('id', auth()->id())
+                                ->get()
+                                ->pluck('name', 'id')
+                                ->toArray();
+                        }
                     )
 
                     //3 display semua user kecuali admin
                     // ->options(
                     //     User::whereHas('roles', function ($query) {
-                    //         $query->where('name', '!=', Role::ROLES['Admin']);
+                    //         $query->where('title', '!=', Role::ROLES['Admin']);
                     //     })->get()->pluck('name', 'id')->toArray()
                     // )
                     ->required(),
