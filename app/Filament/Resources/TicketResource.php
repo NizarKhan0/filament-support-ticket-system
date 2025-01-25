@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Models\Role;
+use App\Models\User;
 use Filament\Tables;
 use App\Models\Ticket;
 use Filament\Forms\Form;
@@ -13,10 +14,11 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource\RelationManagers\LabelsRelationManager;
 use App\Filament\Resources\TicketResource\RelationManagers\CategoriesRelationManager;
-use App\Models\User;
 
 class TicketResource extends Resource
 {
@@ -40,10 +42,18 @@ class TicketResource extends Resource
                     ->required(),
 
                 Select::make('assigned_to')
+                    //1
                     // ->relationship('assignedTo', 'name')
+                    // ->options(
+                    //     User::whereHas('roles', function ($query) {
+                    //         $query->where('name', Role::ROLES['Agent']);
+                    //     })->get()->pluck('name', 'id')->toArray()
+                    // )
+
+                    //2
                     ->options(
                         User::whereHas('roles', function ($query) {
-                            $query->where('name', Role::ROLES['Agent']);
+                            $query->where('name', '!=', Role::ROLES['Admin']);
                         })->get()->pluck('name', 'id')->toArray()
                     )
                     ->required(),
@@ -61,9 +71,25 @@ class TicketResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+
+        //utk buat filter apa yg kita nak
+        ->modifyQueryUsing(function (Builder $query) {
+            if (auth()->check() && auth()->user()->hasRole(Role::ROLES['Admin'])) {
+                // Admin can see all tickets
+                return Ticket::query();
+            } else {
+                // Non-admins can only see tickets assigned to them
+                return $query->where('assigned_to', auth()->id());
+            }
+        })
+
+        //utk setup by default sort nak letak apa
+        ->defaultSort('created_at', 'desc')
+
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->description(fn (Ticket $record): string => $record?->description ?? ''),
+                    ->description(fn(Ticket $record): string => $record?->description ?? '')
+                    ->sortable(),
 
                 Tables\Columns\SelectColumn::make('status')
                     ->disabled(!auth()->user()->hasPermission('ticket_edit'))
@@ -86,10 +112,16 @@ class TicketResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextInputColumn::make('comment'),
                 Tables\Columns\ImageColumn::make('attachment')
-                ->square(),
+                    ->square(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->dateTime(),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options(self::$model::STATUS),
+                SelectFilter::make('priority')
+                    ->options(self::$model::PRIORITY),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
