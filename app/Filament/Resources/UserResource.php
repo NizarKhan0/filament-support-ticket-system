@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filament\Resources;
 
 use App\Models\User;
@@ -31,6 +32,10 @@ class UserResource extends Resource
                 TextInput::make('email')
                     ->email()
                     ->required(),
+
+                TextInput::make('password')
+                    ->password()
+                    ->autocomplete(false),
             ]);
     }
 
